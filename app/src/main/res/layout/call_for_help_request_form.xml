@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:rowCount="6">
+
+        <TextView
+            android:id="@+id/request_text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Name:* " />
+
+        <AutoCompleteTextView
+            android:id="@+id/request_edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="8"
+            android:hint="Your Name"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="2"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/NameButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:text="x"
+            android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/request_warning_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:text="(Required)"
+                android:textColor="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/request_text_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Start:* " />
+
+        <AutoCompleteTextView
+            android:id="@+id/request_edit_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="8"
+            android:hint="Start Point"
+            android:inputType="textAutoComplete" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="2"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/StartButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:text="x"
+            android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/request_warning_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:text="(Required)"
+                android:textColor="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/request_text_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="End:* " />
+
+        <AutoCompleteTextView
+            android:id="@+id/request_edit_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="8"
+            android:hint="End Point"
+            android:inputType="textAutoComplete" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="2"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/EndButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:background="#00000000"
+                android:text="x"
+                android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/request_warning_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:text="(Required)"
+            android:textColor="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/request_text_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Phone: " />
+
+        <EditText
+            android:id="@+id/request_edit_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="8"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:maxLength="8" />
+
+        <Button
+            android:id="@+id/PhoneButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:text="x"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/request_text_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Message: " />
+
+        <EditText
+            android:id="@+id/request_edit_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="8"
+            android:hint="Message"
+            android:inputType="textShortMessage" />
+
+        <Button
+            android:id="@+id/MessageButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:background="#00000000"
+            android:text="x"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="bottom|right"
+            android:layout_row="5"
+            android:text="CANCEL" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_gravity="bottom"
+            android:layout_row="5"
+            android:enabled="false"
+            android:text="SEND" />
+
+    </GridLayout>
+
+</LinearLayout>

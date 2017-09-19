@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:background="#26467c">
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/home_button"
+        android:id="@+id/StreetViewHomeButton"
+        android:background="#26467c"
+        android:scaleType="fitCenter"
+        android:layout_margin="5dp" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/back_list_button"
+            android:id="@+id/BackListButton"
+            android:background="#26467c"
+            android:scaleType="fitCenter"
+            android:layout_margin="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="25dp"
+        android:text="街景"
+        android:id="@+id/StreetViewChi"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:textColor="#fefe00" />
+
+        <TextView
+            android:id="@+id/StreetViewEng"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Photo"
+            android:textColor="#fefe00"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/info_button"
+            android:id="@+id/PathInfoButton"
+            android:scaleType="fitCenter"
+            android:background="#26467c"
+            android:layout_margin="5dp" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/map_button"
+        android:id="@+id/backMap"
+        android:scaleType="fitCenter"
+        android:background="#26467c"
+        android:layout_margin="5dp" />
+
+
+</LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/CurrentPhoto"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:weightSum="1"
+        android:background="#26467c">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="3dp"
+            android:background="#ffffff">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ChiMessage"
+            android:id="@+id/ChiName"
+            android:layout_margin="5dp"
+            android:autoText="false"
+            android:textSize="24dp"
+            android:minLines="2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EngMessage"
+            android:id="@+id/EngName"
+            android:layout_margin="5dp"
+            android:layout_weight="0.50"
+            android:textSize="16dp"
+            android:minLines="3" />
+
+        </LinearLayout>
+
+        <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/seekBar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+            android:background="#FFFFFF"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="5dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

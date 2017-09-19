@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CU Guide</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_street_view">StreetViewActivity</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_activity_front">FrontActivity</string>
+    <string name="title_activity_department">Map</string>
+    <string name="title_activity_call_for_help_details">Map</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>Request List</item>
+        <item>My Request</item>
+        <item>My Accept</item>
+        <item>Home</item>
+    </string-array>
+    <string name="toolbar_title">Call For Help</string>
+</resources>

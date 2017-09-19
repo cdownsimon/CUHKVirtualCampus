@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/home_background"
+        android:scaleType="centerCrop"/>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1.0"
+    tools:context="com.simonwong.cuhkvirtualcampus.FrontActivity">
+
+    <ImageView
+        android:id="@+id/HomeLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="5dp"
+        android:layout_weight="0.3"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/home_logo" />
+
+    <ImageButton
+        android:id="@+id/RouteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_weight="0.23"
+        android:scaleType="fitXY"
+        android:src="@mipmap/home_planner"
+        android:text="Route Finding" />
+
+    <ImageButton
+        android:id="@+id/DepartmentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_weight="0.23"
+        android:scaleType="fitXY"
+        android:src="@mipmap/home_department"
+        android:text="Department Finding" />
+
+    <ImageButton
+        android:id="@+id/CallHelpButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_weight="0.23"
+        android:scaleType="fitXY"
+        android:src="@mipmap/home_call"
+        android:text="Call for Help" />
+
+</LinearLayout>
+
+</FrameLayout>

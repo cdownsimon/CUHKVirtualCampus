@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "547278764694",
+    "firebase_url": "https://fypseem2016m-744e3.firebaseio.com",
+    "project_id": "fypseem2016m-744e3",
+    "storage_bucket": "fypseem2016m-744e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547278764694:android:c6a0f18a9e2a627d",
+        "android_client_info": {
+          "package_name": "com.simonwong.cuhkvirtualcampus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547278764694-9rq3e1vcu43ra46hcp37n2gu3lab49q4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVLiJ7FxgO4KmZ0SUSuewUx2qmQQ0zcaY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

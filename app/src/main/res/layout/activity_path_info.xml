@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:background="#26467c">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/home_button"
+            android:id="@+id/HomeButton"
+            android:scaleType="fitCenter"
+            android:background="#26467c"
+            android:layout_margin="5dp" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/back_list_button"
+            android:id="@+id/BackListButton"
+            android:background="#26467c"
+            android:scaleType="fitCenter"
+            android:layout_margin="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="25dp"
+                android:text="路線"
+                android:id="@+id/StreetViewChi"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:textColor="#fefe00" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="25dp"
+                android:text="Route"
+                android:id="@+id/StreetViewEng"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:textColor="#fefe00" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/pic_img"
+            android:id="@+id/StreetViewButton"
+            android:scaleType="fitCenter"
+            android:background="#26467c"
+            android:layout_margin="5dp" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/map_button"
+            android:scaleType="fitCenter"
+            android:id="@+id/MapButton"
+            android:background="#26467c"
+            android:layout_margin="5dp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PathInfoList"
+        android:layout_gravity="center_horizontal"
+        android:choiceMode="none" />
+
+</LinearLayout>

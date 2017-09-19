@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:paddingTop="10dp"
+        android:rowCount="15">
+
+
+        <Button
+            android:id="@+id/DeleteRequestButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+
+        <TextView
+            android:id="@+id/my_request_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Name: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:paddingLeft="10dp"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/my_request_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Start: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Start" />
+
+        <TextView
+            android:id="@+id/my_request_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="End: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:paddingLeft="10dp"
+            android:text="End" />
+
+        <TextView
+            android:id="@+id/my_request_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Phone: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:paddingLeft="10dp"
+            android:text="Phone" />
+
+        <TextView
+            android:id="@+id/my_request_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Message: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:paddingLeft="10dp"
+            android:text="message" />
+
+        <TextView
+            android:id="@+id/request_destails_no_request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:text="You currently do not have request" />
+
+        <TextView
+            android:id="@+id/my_request_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="8"
+            android:paddingLeft="10dp"
+            android:text="Status: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="8"
+            android:layout_column="1"
+            android:paddingLeft="10dp"
+            android:text="status" />
+
+        <TextView
+            android:id="@+id/request_destails_accetped_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_columnSpan="1"
+            android:layout_row="9"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:text="Below is his/her information" />
+
+        <TextView
+            android:id="@+id/my_request_accepter_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="10"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Name: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_accepter_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="10"
+            android:paddingLeft="10dp"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/my_request_accepter_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="11"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Phone: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_accepter_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="11"
+            android:layout_column="1"
+            android:paddingLeft="10dp"
+            android:text="Phone" />
+
+        <TextView
+            android:id="@+id/my_request_accepter_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Message: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_accepter_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:paddingLeft="10dp"
+            android:text="message" />
+
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right">
+
+        <Button
+            android:id="@+id/my_request_view_route_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="View Route" />
+
+        <Button
+            android:id="@+id/my_request_chat_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Chat" />
+
+        <Button
+            android:id="@+id/my_request_phone_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Call" />
+    </LinearLayout>
+
+</FrameLayout>

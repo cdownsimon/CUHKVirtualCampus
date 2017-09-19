@@ -1,0 +1,111 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dept_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#26467c"
+        android:orientation="horizontal"
+        android:layout_weight="0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="0.15">
+
+                <ImageButton
+                    android:id="@+id/DepartmentHomeButton"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:background="#26467c"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/home_button" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/MapChiTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="學系及研究中心"
+                        android:textSize="25dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:textColor="#fefe00" />
+
+                    <TextView
+                        android:id="@+id/MapEngTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:text="Departments"
+                        android:textColor="#fefe00"
+                        android:textSize="25dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.85"
+                android:background="@color/colorPrimary"
+                android:gravity="left"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:text="請輸入學系或研究中心 Please Enter Department or Facilities:"
+                android:textColor="#fefe00"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/DeptSearch"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.78" />
+
+    <ListView
+        android:id="@+id/DeptName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.1"
+        android:visibility="gone" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.22"
+        android:visibility="visible"
+        tools:context="com.simonwong.cuhkvirtualcampus.DepartmentActivity" />
+
+</LinearLayout>

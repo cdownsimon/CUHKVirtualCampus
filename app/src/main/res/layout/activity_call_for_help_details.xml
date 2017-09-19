@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:paddingTop="10dp"
+        android:rowCount="6">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Name: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:paddingLeft="10dp"
+            android:text="Name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Start: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:paddingLeft="10dp"
+            android:text="Start" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="End: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:paddingLeft="10dp"
+            android:text="End" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Phone: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:paddingLeft="10dp"
+            android:text="Phone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:text="Message: " />
+
+        <TextView
+            android:id="@+id/request_destails_text_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:ems="16"
+            android:paddingLeft="10dp"
+            android:text="message" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:text="My Location: " />
+
+    </GridLayout>
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.simonwong.cuhkvirtualcampus.CallForHelpDetailsActivity"
+            android:layout_weight="0.7"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL" />
+
+        <Button
+            android:id="@+id/acceptButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="ACCEPT" />
+
+    </FrameLayout>
+
+</LinearLayout>
+
+
+
