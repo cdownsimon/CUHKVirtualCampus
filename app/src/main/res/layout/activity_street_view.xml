@@ -83,6 +83,7 @@
         android:layout_height="match_parent"
         android:id="@+id/CurrentPhoto"
         android:layout_alignBottom="@+id/textView"
+        android:scaleType="fitCenter"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1" />
 

@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
@@ -83,7 +85,11 @@ public class StreetViewActivity extends AppCompatActivity {
                 options.inSampleSize = 9;
                 CurrentPhoto.setImageBitmap(BitmapFactory.decodeStream(inputStream, null, options));
                 */
-                CurrentPhoto.setImageResource(id);
+
+                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + PhotoList.get(progress) + ".png";
+                //CurrentPhoto.setImageResource(id);
+
+                Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(CurrentPhoto);
 
                 //save progress
                 Progress = progress;
@@ -198,7 +204,12 @@ public class StreetViewActivity extends AppCompatActivity {
     private void initSeekbar(){
         Context ctx = StreetViewActivity.this;
         int InitialPhoto = ctx.getResources().getIdentifier(PhotoList.get(Progress), "drawable", ctx.getPackageName());
-        CurrentPhoto.setImageResource(InitialPhoto);
+
+        String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + PhotoList.get(Progress) + ".png";
+
+        Picasso.with(getApplicationContext()).load(url).into(CurrentPhoto);
+
+        //CurrentPhoto.setImageResource(InitialPhoto);
         //qeury.setText(PhotoList.get(Progress));
 
         //handle the text
