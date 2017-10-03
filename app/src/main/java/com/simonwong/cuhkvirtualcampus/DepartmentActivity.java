@@ -30,6 +30,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +61,7 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
     private Map<Marker, String> MarkersEng = new HashMap<Marker, String>();
     private Map<Marker, Integer> MarkersRe = new HashMap<>();
     private Map<Marker, String> MarkersPhoto = new HashMap<Marker, String>();
+    private Map<Marker, Boolean> MarkersPhotoLoaded = new HashMap<>();
     final ArrayList<String> PhotoIdForMarker = new ArrayList<>();
 
     boolean language = true;
@@ -79,21 +82,6 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
         map = getSupportFragmentManager().findFragmentById(R.id.map);
         DeptSearchBar.setSubmitButtonEnabled(true);
         //DeptSearch.onActionViewExpanded();
-
-        /*
-        DeptName.add("January");
-        DeptName.add("February");
-        DeptName.add("March");
-        DeptName.add("April");
-        DeptName.add("May");
-        DeptName.add("June");
-        DeptName.add("July");
-        DeptName.add("August");
-        DeptName.add("September");
-        DeptName.add("October");
-        DeptName.add("November");
-        DeptName.add("December");
-        */
 
         for(Location location:location_list.getLocationlist()){
             for(Centre centre:location.getCentre()){
@@ -257,8 +245,11 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                 ImageView InfoImage = ((ImageView)ContentsView.findViewById(R.id.location_image));
                 ListView InfoMessage = ((ListView)ContentsView.findViewById(R.id.dept));
 
-                int id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
-                InfoImage.setImageResource(id);
+                //int id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
+                //InfoImage.setImageResource(id);
+
+                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+                Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(InfoImage);
 
                 final Location CurrentLocation = MarkLocation.get(marker);
 
@@ -332,6 +323,7 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                 MarkersEng.put(marker, tmp.getEng());
                 MarkersRe.put(marker, tmp.getRegion());
                 MarkersPhoto.put(marker, tmp.getPhoto());
+                MarkersPhotoLoaded.put(marker,false);
                 PhotoIdForMarker.add(tmp.getPhoto());
             }
         }
@@ -372,6 +364,22 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
 
     }
 
+    class InfoWindowRefresher implements Callback {
+        private Marker markerToRefresh;
+
+        public InfoWindowRefresher(Marker markerToRefresh) {
+            this.markerToRefresh = markerToRefresh;
+        }
+
+        @Override
+        public void onSuccess() {
+            markerToRefresh.showInfoWindow();
+        }
+
+        @Override
+        public void onError() {}
+    }
+
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         private final View myContentsView;
@@ -408,8 +416,18 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
             int id;
 
             try {
-                id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
-                markerImage.setImageResource(id);
+                //id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
+
+                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+
+                if(MarkersPhotoLoaded.get(marker)) {
+                    Picasso.with(getApplicationContext()).load(url).into(markerImage);
+                }else{
+                    MarkersPhotoLoaded.put(marker,true);
+                    Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(markerImage, new InfoWindowRefresher(marker));
+                }
+
+                //markerImage.setImageResource(id);
             }catch (Exception e){
                 System.err.println(e);
             }
@@ -455,8 +473,11 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
         ImageView InfoImage = ((ImageView)ContentsView.findViewById(R.id.location_image));
         ListView InfoMessage = ((ListView)ContentsView.findViewById(R.id.dept));
 
-        int id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
-        InfoImage.setImageResource(id);
+        //int id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
+        //InfoImage.setImageResource(id);
+
+        String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+        Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(InfoImage);
 
         final Location CurrentLocation = MarkLocation.get(marker);
 
