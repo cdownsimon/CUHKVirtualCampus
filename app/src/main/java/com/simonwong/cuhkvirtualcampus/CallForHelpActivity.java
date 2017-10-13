@@ -2,6 +2,8 @@ package com.simonwong.cuhkvirtualcampus;
 
 import android.*;
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +14,16 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +32,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -68,14 +74,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -85,6 +99,9 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
 
     private static CallHelpMessage MyCallHelpMessage;
     private static CallHelpMessage MyAcceptedCallHelp;
+    public static long uuid;
+    public static long acceptorUUID;
+    public static String transferKey;
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageNameView;
@@ -135,8 +152,10 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
 
         @Override
         public void onLocationChanged (android.location.Location location){
-            CurrentLocation[0] = location.getLatitude();
-            CurrentLocation[1] = location.getLongitude();
+            if(location!=null) {
+                CurrentLocation[0] = location.getLatitude();
+                CurrentLocation[1] = location.getLongitude();
+            }
         }
 
         @Override
@@ -169,6 +188,10 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_for_help);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         //Temp!!!!!!!!!!!!!!!!!!!!!!
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -210,8 +233,10 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
             if(location == null) {
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-            CurrentLocation[0] = location.getLatitude();
-            CurrentLocation[1] = location.getLongitude();
+            if (location!=null) {
+                CurrentLocation[0] = location.getLatitude();
+                CurrentLocation[1] = location.getLongitude();
+            }
         }
     }
 
@@ -317,10 +342,13 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
         if(resultCode == RESULT_OK){
             if(requestCode == 0){
                 System.out.println("Resulted key: " + data.getExtras().getString("AcceptedRequestKey"));
+                TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                acceptorUUID = Long.parseLong(tManager.getDeviceId());
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("accepted").setValue(true);
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("accepterName").setValue(data.getExtras().getString("AccepterName"));
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("accepterPhone").setValue(data.getExtras().getString("AccepterPhone"));
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("accepterMessage").setValue(data.getExtras().getString("AccepterMessage"));
+                mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("acceptorUUID").setValue(acceptorUUID);
 
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -419,7 +447,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
         mDrawerToggle.syncState();
     }
 
-    public static class RequestListFragment extends Fragment {
+    public class RequestListFragment extends Fragment {
 
         private ImageButton addMessageButton;
         private TextView noRequestText;
@@ -867,7 +895,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                                     message = "I want to go to " + RequestEnd.getText().toString() + " from " + RequestStart.getText().toString() + ".";
                                 }
 
-                                String key = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                                final String key = mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                                         .push().getKey();
 
                                 String phone = RequestPhone.getText().toString();
@@ -896,6 +924,23 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                                 mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                                         .child(key).setValue(callHelpMessage);
 
+                                // Edited Code
+                                TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                                uuid = Long.parseLong(tManager.getDeviceId());
+                                mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key).child("uuid").setValue(uuid);
+
+                                transferKey = key;
+                                System.out.println("UUID1: " + uuid);
+                                FirebaseMessaging.getInstance().subscribeToTopic("TopicName");
+
+                                try {
+                                    PushNotification.sendPushNotification(RequestName.getText().toString(),RequestMessage.getText().toString());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                                 System.out.println("Key: " + key);
 
                                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).addChildEventListener(new ChildEventListener() {
@@ -910,6 +955,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                                             if (dataSnapshot.getKey().equals(MyCallHelpMessage.getKey())) {
                                                 MyCallHelpMessage = dataSnapshot.getValue(CallHelpMessage.class);
                                                 System.out.println("Status: " + MyCallHelpMessage.getAccepted());
+
                                             }
                                         }catch (Exception e){
 
@@ -1006,7 +1052,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
             DeleteRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Query CurrentRecord = FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD).orderByChild("phone").equalTo(MyCallHelpMessage.getPhone());
+                    Query CurrentRecord = FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD).orderByChild("uuid").equalTo(uuid);
 
                     CurrentRecord.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
