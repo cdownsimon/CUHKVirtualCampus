@@ -447,7 +447,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
         mDrawerToggle.syncState();
     }
 
-    public class RequestListFragment extends Fragment {
+    public static class RequestListFragment extends Fragment {
 
         private ImageButton addMessageButton;
         private TextView noRequestText;
@@ -918,14 +918,14 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                                         null, //Accepter Phone set to Null
                                         null); //Accetper Message set to Null
 
-                                // Send messages on click.
+// Send messages on click.
                                 CallHelpMessage callHelpMessage = MyCallHelpMessage;
 
                                 mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                                         .child(key).setValue(callHelpMessage);
 
                                 // Edited Code
-                                TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                                TelephonyManager tManager = (TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE);
                                 uuid = Long.parseLong(tManager.getDeviceId());
                                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key).child("uuid").setValue(uuid);
 
