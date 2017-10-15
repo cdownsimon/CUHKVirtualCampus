@@ -18,6 +18,7 @@ public class CallHelpMessage {
     private Map<String,String> timestamp;
     private long times;
     private boolean accepted;
+    private boolean chatRequest;
     private String key;
 
     private String accepterPhone, accepterName,  accepterMessage;
@@ -26,7 +27,7 @@ public class CallHelpMessage {
 
     }
 
-    public CallHelpMessage(String name, String start, String end, String phone, String message, String coor_x, String coor_y, Map<String,String> timestamp, boolean accepted, String key, String accepterName, String accepterPhone, String accepterMessage){
+    public CallHelpMessage(String name, String start, String end, String phone, String message, String coor_x, String coor_y, Map<String,String> timestamp, boolean accepted, boolean chatRequest, String key, String accepterName, String accepterPhone, String accepterMessage){
         this.name = name;
         this.start = start;
         this.end = end;
@@ -36,6 +37,7 @@ public class CallHelpMessage {
         this.coor_y = coor_y;
         this.timestamp = timestamp;
         this.accepted = accepted;
+        this.chatRequest = chatRequest;
         this.key = key;
         this.accepterName = accepterName;
         this.accepterPhone = accepterPhone;
@@ -120,6 +122,14 @@ public class CallHelpMessage {
 
     public void setAccepted(boolean accepted){
         this.accepted = accepted;
+    }
+
+    public boolean getchatRequest(){
+        return this.chatRequest;
+    }
+
+    public void setchatRequest(boolean ChatRequest){
+        this.chatRequest = chatRequest;
     }
 
     public String getKey(){

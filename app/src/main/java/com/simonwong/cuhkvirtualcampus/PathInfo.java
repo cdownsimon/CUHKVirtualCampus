@@ -1,5 +1,7 @@
 package com.simonwong.cuhkvirtualcampus;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -66,7 +68,7 @@ public class PathInfo {
     }
 
     public String getLastPhotoId(){
-        return this.PhotoId.get(PhotoId.size()-1);
+        return this.PhotoId.get(this.PhotoId.size()-1);
     }
 
     public ArrayList<String> getPhotoId(){

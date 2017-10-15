@@ -1,12 +1,16 @@
+/*Disabled navigation and request of current location*/
+
 package com.simonwong.cuhkvirtualcampus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.*;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +40,10 @@ import java.util.Map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-    Dijkstra find_path;
+    //Dijkstra find_path = new Dijkstra();
+
+    ShortestPathList find_path = new ShortestPathList();
+
     String shortest_path;
     String[] location_order;
     boolean maptype;
@@ -60,6 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Map<Marker, String> MarkersEng = new HashMap<Marker, String>();
     private Map<Marker, Integer> MarkersRe = new HashMap<>();
     private Map<Marker, String> MarkersPhoto = new HashMap<Marker, String>();
+    private Map<Marker, Boolean> MarkersPhotoLoaded = new HashMap<>();
     final ArrayList<String> PhotoIdForMarker = new ArrayList<>();
 
     double[] CurrentLocation = new double[2];
@@ -96,6 +107,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("MapfirstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    final Intent i = new Intent(MapsActivity.this, FrontIntroActivity.class);
+
+                    i.putExtra("LaunchFrom", "Map");
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(i);
+                        }
+                    });
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("MapfirstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -112,8 +164,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (location == null) {
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-            CurrentLocation[0] = location.getLatitude();
-            CurrentLocation[1] = location.getLongitude();
+            //CurrentLocation[0] = location.getLatitude();
+            //CurrentLocation[1] = location.getLongitude();
         }
 
         Bundle message = getIntent().getExtras();
@@ -162,7 +214,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         endIdx = findLocationIndex(end);
-        find_path = new Dijkstra();
+
         System.out.println("Start point: " + startIdx);
         System.out.println("End point: " + endIdx);
 
@@ -248,6 +300,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("bus",bus);
                 intent.putExtra("activity",activity);
 
+                /*Disabled, will be enable later.
+                Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                toast.show();*/
+
                 startActivityForResult(intent, 0);
                 finish();
             }
@@ -315,7 +371,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("PhotoIdForMarker",PhotoIdForMarker);
                 intent.putExtra("lang", lang);
 
-                startActivityForResult(intent, 0);
+                /*Disabled, will be enable later.*/
+                Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                toast.show();
+
+                //startActivityForResult(intent, 0);
             }
         });
 
@@ -331,6 +391,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+    }
+
+    class InfoWindowRefresher implements Callback {
+        private Marker markerToRefresh;
+
+        public InfoWindowRefresher(Marker markerToRefresh) {
+            this.markerToRefresh = markerToRefresh;
+        }
+
+        @Override
+        public void onSuccess() {
+            markerToRefresh.showInfoWindow();
+        }
+
+        @Override
+        public void onError() {}
     }
 
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
@@ -369,8 +445,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int id;
 
             try {
-                id = MapsActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", MapsActivity.this.getPackageName());
-                markerImage.setImageResource(id);
+                //id = MapsActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", MapsActivity.this.getPackageName());
+                //markerImage.setImageResource(id);
+
+                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+
+                if(MarkersPhotoLoaded.get(marker)) {
+                    Picasso.with(getApplicationContext()).load(url).into(markerImage);
+                }else{
+                    MarkersPhotoLoaded.put(marker,true);
+                    Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(markerImage, new InfoWindowRefresher(marker));
+                }
+
             }catch (Exception e){
                 System.err.println(e);
             }
@@ -487,6 +573,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             MarkersEng.put(marker,LocationEng.get(i));
             MarkersRe.put(marker,LocationRe.get(i));
             MarkersPhoto.put(marker,RequiredPath.get(i).getFirstPhotoId());
+            MarkersPhotoLoaded.put(marker,false);
             PhotoIdForMarker.add(RequiredPath.get(i).getFirstPhotoId());
         }
         Marker marker = mMap.addMarker(new MarkerOptions()
@@ -497,6 +584,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkersEng.put(marker,LocationEng.get(LocationEng.size() - 1));
         MarkersRe.put(marker,LocationRe.get(LocationRe.size() - 1));
         MarkersPhoto.put(marker, RequiredPath.get(RequiredPath.size() - 1).getLastPhotoId());
+        MarkersPhotoLoaded.put(marker,false);
         PhotoIdForMarker.add(RequiredPath.get(RequiredPath.size()-1).getLastPhotoId());
 
         //Mark the arrows

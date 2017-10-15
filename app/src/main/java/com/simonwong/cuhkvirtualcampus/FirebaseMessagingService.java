@@ -35,11 +35,16 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     private static final String TAG = "FirebaseMessagingServic";
 
     public static long uuid;
-    public static long firebaseUUID;
+    public static long firebaseSenderUUID;
+    public static long firebaseAcceptorUUID;
     public static String key;
     public static String title;
     public static String message;
     public static String val;
+    public static String accepted;
+    public static String requestChat;
+    public static String requestAccepter;
+
     public FirebaseMessagingService() {
     }
 
@@ -67,14 +72,64 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Log.d("User key", child.getKey());
                         Log.d("User val", child.child("message").getValue().toString());
-                        Log.d("User uuid", child.child("uuid").getValue().toString());
-                        firebaseUUID = Long.parseLong(child.child("uuid").getValue().toString());
+                        accepted = child.child("accepted").getValue().toString();
+                        firebaseSenderUUID = Long.parseLong(child.child("uuid").getValue().toString());
                         message = child.child("message").getValue().toString();
+                        requestChat = child.child("chatRequest").getValue().toString();
+
+
+                        if (accepted.equals("true")) {
+                            firebaseAcceptorUUID = Long.parseLong(child.child("acceptorUUID").getValue().toString());
+                            Log.d("Acceptor uuid", child.child("acceptorUUID").getValue().toString());
+                        }
+
+                        if (requestChat.equals("true")) {
+                            firebaseAcceptorUUID = Long.parseLong(child.child("acceptorUUID").getValue().toString());
+                            Log.d("Acceptor uuid", child.child("acceptorUUID").getValue().toString());
+
+                            DatabaseReference databaseReference = child.child("chat").getRef();
+                            Query lastQuery2 = databaseReference.orderByKey().limitToLast(1);
+
+                            lastQuery2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    System.out.println(dataSnapshot.child("uuid").getValue());
+                                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                        Log.d("User key", child.getKey());
+                                        Log.d("User key", child.child("accepter").getValue().toString());
+                                        requestAccepter = child.child("accepter").getValue().toString();
+
+                                    }
+                                    if (requestAccepter.equals("true")){
+                                        if (uuid == firebaseSenderUUID) {
+                                            sendNotification(title, val);
+                                        }
+                                    }
+                                    else if (requestAccepter.equals("false")) {
+                                        if (uuid == firebaseAcceptorUUID) {
+                                            sendNotification(title, val);
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                     }
 
-                    System.out.println("UUID1: " + uuid + "       UUID2: " + firebaseUUID);
-                    if (uuid != firebaseUUID) {
-                        sendNotification(title, message);
+                    System.out.println("UUIDThisDevice: " + uuid + "       UUIDSender: " + firebaseSenderUUID +  "       UUIDAcceptor: " + firebaseAcceptorUUID);
+                    if (requestChat.equals("false") && accepted.equals("true")){
+                        if (uuid == firebaseSenderUUID) {
+                            sendNotification(title, val);
+                        }
+                    }else if (accepted.equals("false")){
+                        if (uuid != firebaseSenderUUID) {
+                            sendNotification(title, message);
+                        }
                     }
                 }
 

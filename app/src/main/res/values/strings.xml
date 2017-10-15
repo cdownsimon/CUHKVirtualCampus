@@ -5,8 +5,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="title_activity_front">FrontActivity</string>
-    <string name="title_activity_department">Map</string>
-    <string name="title_activity_call_for_help_details">Map</string>
+    <string name="title_activity_department">DepartmentActivity</string>
+    <string name="title_activity_call_for_help_details">CallForHelpDetailsActivity</string>
+    <string name="title_activity_front_intro">FrontIntroActivity</string>
     <string-array name="navigation_drawer_items_array">
         <item>Request List</item>
         <item>My Request</item>

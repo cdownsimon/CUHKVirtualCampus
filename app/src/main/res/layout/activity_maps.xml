@@ -105,7 +105,7 @@
                 android:layout_height="55dp"
                 android:src="@mipmap/navigation_button"
                 android:scaleType="fitCenter"
-                android:id="@+id/NavigationButton" />
+                android:id="@+id/NavigationButton"/>
 
             <ImageButton
                 style="?android:attr/buttonStyleSmall"

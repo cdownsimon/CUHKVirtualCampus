@@ -1,3 +1,5 @@
+/*Disabled Current Location option*/
+
 package com.simonwong.cuhkvirtualcampus;
 
 import android.*;
@@ -189,6 +191,47 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_for_help);
 
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("CallHelpfirstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    final Intent i = new Intent(CallForHelpActivity.this, FrontIntroActivity.class);
+
+                    i.putExtra("LaunchFrom", "CallHelp");
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(i);
+                        }
+                    });
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("CallHelpfirstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -234,8 +277,12 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
             if (location!=null) {
-                CurrentLocation[0] = location.getLatitude();
-                CurrentLocation[1] = location.getLongitude();
+                try {
+                    CurrentLocation[0] = location.getLatitude();
+                    CurrentLocation[1] = location.getLongitude();
+                }catch (Exception e){
+                    Log.e("CallHelpActivity",e.toString());
+                }
             }
         }
     }
@@ -349,6 +396,16 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("accepterPhone").setValue(data.getExtras().getString("AccepterPhone"));
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("accepterMessage").setValue(data.getExtras().getString("AccepterMessage"));
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).child("acceptorUUID").setValue(acceptorUUID);
+
+                FirebaseMessaging.getInstance().subscribeToTopic("TopicName");
+
+                try {
+                    PushNotification.sendPushNotification("Your request has been accepted!", "Accepted by: " + data.getExtras().getString("AccepterName"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(data.getExtras().getString("AcceptedRequestKey")).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -629,7 +686,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                         final TextView EndWarningText = (TextView) ContentsView.findViewById(R.id.request_warning_end);
 
                         final String locations[] = {
-                                "Current Location", "An Integrated Teaching Building",
+                                /*"Current Location",*/ "An Integrated Teaching Building",
                                 "Art Museum", "Benjamin Franklin Centre", "Benjamin Franklin Centre Coffee Corner", "Benjamin Franklin Centre Student Canteen", "Ch'ien Mu Library",
                                 "Chen Kou Bun Building", "Cheng Ming Building", "Cheng Yu Tung Building", "Cheung Chuk Shan Amenities Building", "Choh-Ming Li Basic Medical Science Building",
                                 "Chung Chi College Chapel", "Chung Chi College Staff Club Clubhouse", "Chung Chi Garden", "Chung Chi Tang", "Cultural Square",
@@ -645,7 +702,7 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                                 "William M.W. Mong Engineering Building 4/F", "William M.W. Mong Engineering Building 9/F", "William M.W. Mong Engineering Building G/F", "Women Workers' Cooperation", "Wong Foo Yuan Building",
                                 "Wu Chung Multimedia Library", "Wu Ho Man Yuen Building", "Wu Yee Sun College", "Y.C. Liang Hall", "Yasumoto International Academic Park",
 
-                                "目前位置", "綜合教學大樓",
+                                /*"目前位置",*/ "綜合教學大樓",
                                 "文物館", "范克廉樓", "范克廉樓咖啡閣", "范克廉樓學生膳堂", "錢穆圖書館",
                                 "陳國本樓", "誠明館", "鄭裕彤樓", "張祝珊師生康樂大樓", "李卓敏基本醫學大樓",
                                 "崇基教堂", "聯誼會", "何草", "眾志堂", "文化廣場",
@@ -913,12 +970,13 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                                         String.valueOf(CurrentLocation[1]),
                                         ServerValue.TIMESTAMP,
                                         false,
+                                        false,
                                         key,
                                         null, //Accepter Name set to Null
                                         null, //Accepter Phone set to Null
                                         null); //Accetper Message set to Null
 
-// Send messages on click.
+                                // Send messages on click.
                                 CallHelpMessage callHelpMessage = MyCallHelpMessage;
 
                                 mFirebaseDatabaseReference.child(MESSAGES_CHILD)
@@ -1682,9 +1740,23 @@ public class CallForHelpActivity extends AppCompatActivity implements GoogleApiC
                             ChatRoomMessage(mMessageEditText.getText().toString(),
                             simpleDateFormat.format(Now),
                             IsAccepter);
-
+                    if(!IsAccepter) {
+                        FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD).child(MyCallHelpMessage.getKey()).child("chatRequest").setValue(true);
+                    }else{
+                        FirebaseDatabase.getInstance().getReference().child(MESSAGES_CHILD).child(MyAcceptedCallHelp.getKey()).child("chatRequest").setValue(true);
+                    }
                     ChatRoomRef.push().setValue(chatRoomMessage);
                     mMessageEditText.setText("");
+
+                    FirebaseMessaging.getInstance().subscribeToTopic("TopicName");
+
+                    try {
+                        PushNotification.sendPushNotification("New Chat Message!",  "Chat Now");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 

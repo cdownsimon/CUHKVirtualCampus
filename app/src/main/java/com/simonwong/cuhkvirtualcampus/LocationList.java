@@ -96,6 +96,11 @@ public class LocationList {
         this.Locationlist.add(new Location("68", "Shaw College Gymnasium", "逸夫書院體育館", "Shaw gym", 22.422353, 114.200777, 3));
         this.Locationlist.add(new Location("69", "William M.W. Mong Engineering Building 4/F", "蒙民偉工程學大樓4樓", "ERB(4/F)", 22.418181, 114.207974, 2));
         this.Locationlist.add(new Location("70", "Ho Sin-Hang Engineering Building G/F", "何善衡工程學大樓地下", "SHB(G/F)", 22.418163, 114.207327, 2));
+        this.Locationlist.add(new Location("71", "C.W. Chu College", "敬文書院", "CWC", 22.425401, 114.206614, 3));
+        this.Locationlist.add(new Location("72", "Lo Kwee-Seong Integrated Biomedical Sciences Building", "羅桂祥綜合生物醫學大樓", "LKS", 22.427551, 114.204311, 3));
+        this.Locationlist.add(new Location("73", "Jockey Club Postgraduate Hall", "賽馬會研究生宿舍", "JCPH",  22.420279, 114.212071, 2));
+        this.Locationlist.add(new Location("74", "Residence 15", "十五苑", "R15",  22.423519, 114.206599, 3));
+        this.Locationlist.add(new Location("75", "United College Staff Residence", "聯合苑", "UCSR", 22.423212, 114.205403, 3));
     }
 
     private void addBusLocation(){

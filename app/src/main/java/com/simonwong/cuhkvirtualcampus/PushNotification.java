@@ -69,4 +69,55 @@ public class PushNotification {
 
         return result;
     }
+
+    public static String sendPushNotificationAcceptor(String name, String message)
+            throws IOException, JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        String result = "";
+        URL url = new URL(API_URL_FCM);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setUseCaches(false);
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "key=" + AUTH_KEY_FCM);
+        conn.setRequestProperty("Content-Type", "application/json");
+
+        JSONObject json = new JSONObject();
+
+        json.put("to", "/topics/TopicName");
+        JSONObject info = new JSONObject();
+        info.put("title", name); // Notification title
+        info.put("body", message); // Notification
+        info.put("Acceptor", "true");
+        // body
+        json.put("data", info);
+        try {
+            OutputStreamWriter wr = new OutputStreamWriter(
+                    conn.getOutputStream());
+            wr.write(json.toString());
+            wr.flush();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+            }
+            result = "SUCCESS";
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = "FAILURE";
+        }
+        System.out.println("Notification is sent successfully");
+
+        return result;
+    }
 }

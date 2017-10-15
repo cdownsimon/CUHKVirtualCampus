@@ -1,13 +1,17 @@
+/*Disabled request of current location*/
+
 package com.simonwong.cuhkvirtualcampus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
 
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.Image;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -27,7 +32,10 @@ import java.util.List;
 
 public class PathInfoActivity extends AppCompatActivity{
 
-    Dijkstra find_path = new Dijkstra();
+    //Dijkstra find_path = new Dijkstra();
+
+    ShortestPathList find_path = new ShortestPathList();
+
     String shortest_path;
     String[] location_order;
     List<Location> Locations = new ArrayList<Location>();
@@ -85,6 +93,47 @@ public class PathInfoActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_path_info);
 
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("PathInfofirstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    final Intent i = new Intent(PathInfoActivity.this, FrontIntroActivity.class);
+
+                    i.putExtra("LaunchFrom", "RouteInfo");
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(i);
+                        }
+                    });
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("PathInfofirstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+
+
         //handling the location request
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -96,8 +145,8 @@ public class PathInfoActivity extends AppCompatActivity{
             if(location == null) {
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-            CurrentLocation[0] = location.getLatitude();
-            CurrentLocation[1] = location.getLongitude();
+            //CurrentLocation[0] = location.getLatitude();
+            //CurrentLocation[1] = location.getLongitude();
         }
 
         Bundle message = getIntent().getExtras();
@@ -175,6 +224,7 @@ public class PathInfoActivity extends AppCompatActivity{
 
         //Find the path between two points
         for(int i=0;i<location_order.length-1;i++){
+            Log.i("finding path index",location_order[i]+", "+location_order[i + 1]);
             RequiredPath.add(path_list.getPath(location_order[i], location_order[i + 1]));
         }
 
@@ -246,6 +296,10 @@ public class PathInfoActivity extends AppCompatActivity{
                 intent.putExtra("lang", lang);
                 intent.putExtra("bus",bus);
                 intent.putExtra("activity",activity);
+
+                /*Disabled, will be enable later.
+                Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                toast.show();*/
 
                 startActivityForResult(intent, 0);
                 finish();
@@ -386,16 +440,16 @@ public class PathInfoActivity extends AppCompatActivity{
             // Fill the view
             TextView Chi = (TextView) itemView.findViewById(R.id.Chi);
             if(position == FirstBusStop) {
-                Chi.setText(currentLocation.getChi() + "(" + currentLocation.getIndex() + ")" +"\n("+ReachableChi+")");
+                Chi.setText(currentLocation.getChi() /*+ "(" + currentLocation.getIndex() + ")"*/ +"\n("+ReachableChi+")");
             }else{
-                Chi.setText(currentLocation.getChi() + "(" + currentLocation.getIndex() + ")" );
+                Chi.setText(currentLocation.getChi() /*+ "(" + currentLocation.getIndex() + ")"*/ );
             }
 
             TextView Eng = (TextView) itemView.findViewById(R.id.Eng);
             if(position == FirstBusStop){
-                Eng.setText(currentLocation.getEng() + "(" + currentLocation.getIndex() + ")"  +"\n("+ReachableEng+")");
+                Eng.setText(currentLocation.getEng() /*+ "(" + currentLocation.getIndex() + ")"*/  +"\n("+ReachableEng+")");
             }else {
-                Eng.setText(currentLocation.getEng() + "(" + currentLocation.getIndex() + ")" );
+                Eng.setText(currentLocation.getEng() /*+ "(" + currentLocation.getIndex() + ")"*/ );
             }
 
             ImageView Circle = (ImageView) itemView.findViewById(R.id.imageView2);

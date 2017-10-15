@@ -1,8 +1,12 @@
+/*Disabled bus/disabled button and C.W.C college area 39*/
+
 package com.simonwong.cuhkvirtualcampus;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +28,7 @@ import android.widget.ListView;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,18 +96,58 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupUI(findViewById(R.id.main_layout));
 
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("MainfirstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    final Intent i = new Intent(MainActivity.this, FrontIntroActivity.class);
+
+                    i.putExtra("LaunchFrom", "main");
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(i);
+                        }
+                    });
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("MainfirstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+
         // Listview Data
         //final String locations[] = {"MTR","ERB","SHB","CC can","UC can","CC lib","U lib","med can","sir run run"
         //,"YIA","MMW","ATI","WMY","Ho suk","science centre","healt","SHHO","morningside"};
         final String locations[] = {
-                "Current Location","An Integrated Teaching Building",
+                /*"Current Location",*/"An Integrated Teaching Building",
                 "Art Museum","Benjamin Franklin Centre","Benjamin Franklin Centre Coffee Corner","Benjamin Franklin Centre Student Canteen","Ch'ien Mu Library",
                 "Chen Kou Bun Building","Cheng Ming Building","Cheng Yu Tung Building","Cheung Chuk Shan Amenities Building","Choh-Ming Li Basic Medical Science Building",
-                "Chung Chi College Chapel","Chung Chi College Staff Club Clubhouse","Chung Chi Garden","Chung Chi Tang","Cultural Square","C.W.Chu College",
+                "Chung Chi College Chapel","Chung Chi College Staff Club Clubhouse","Chung Chi Garden","Chung Chi Tang","Cultural Square",/*"C.W.Chu College",*/
                 "Elisabeth Luce Moore Library","Esther Lee Building","Fung King Hey Building","Ho Sin-Hang Engineering Building 5/F","Ho Sin-Hang Engineering Building G/F",
                 "Ho Tim Building","Huen Wing Ming Building","Hui Yeung Shing Building","Humanities Building","Institute of Chinese Studies",
                 "John Fulton Centre","Lady Shaw Building","Lake Ad Excellentiam","Lee Shau Kee Building","Lee Woo Sing College",
-                "Leung Kau Kui Building","Li Dak Sum Building","Li Wai Chun Building","Lo Kwee-Seong Integrated Biomedical Sciences Building","Mong Man Wai Building","Morningside College",
+                "Leung Kau Kui Building","Li Dak Sum Building","Li Wai Chun Building",/*"Lo Kwee-Seong Integrated Biomedical Sciences Building",*/"Mong Man Wai Building","Morningside College",
                 "MTR Station","Orchid Lodge","Park'n Shop Supermarket","Pavilion of Harmony","Pentecostal Mission Hall Complex(Low Block)",
                 "Pi Ch'iu Building","Pommerenke Student Centre","S.H. Ho College","Science Centre East Block","Science Centre North Block",
                 "Science Centre South Block","Shaw College Gymnasium","Shaw College Lecture Theatre","Sino Building","Sir Run Run Shaw Hall",
@@ -113,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         final String locations_chi[] = {
-                "目前位置","綜合教學大樓",
+                /*"目前位置",*/"綜合教學大樓",
                 "文物館","范克廉樓","范克廉樓咖啡閣","范克廉樓學生膳堂","錢穆圖書館",
                 "陳國本樓","誠明館","鄭裕彤樓","張祝珊師生康樂大樓","李卓敏基本醫學大樓",
                 "崇基教堂","聯誼會","何草","眾志堂","文化廣場",
@@ -127,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 "樂群館梁雄姬樓","兆龍樓","游泳池","鄭棟材樓","林蔭大道",
                 "曾肇添樓","大學行政樓","大學保健醫療中心","大學圖書館","文瀾堂",
                 "蒙民偉工程學大樓4樓","蒙民偉工程學大樓9樓","蒙民偉工程學大樓地下","女工合作社","王福元樓",
-                "胡忠多媒體圖書館","伍何曼原樓","伍宜孫書院","潤昌堂","康本國際學術園","敬文書院","羅桂祥綜合生物醫學大樓"
+                "胡忠多媒體圖書館","伍何曼原樓","伍宜孫書院","潤昌堂","康本國際學術園"/*,"敬文書院","羅桂祥綜合生物醫學大樓"*/
         };
 
         final String abbr[] = {
@@ -449,6 +494,7 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
+                /*
                 // set title
                 alertDialogBuilder.setTitle("Warning");
 
@@ -480,11 +526,18 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("bus","true");
                     intent.putExtra("activity","main");
 
+                    Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                    toast.show();
+
                     startActivityForResult(intent, 0);
                     finish();
                 } else {
                     alertDialog.show();
                 }
+                */
+
+                Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
@@ -495,6 +548,7 @@ public class MainActivity extends AppCompatActivity {
                 start = StartSearch.getText().toString();
                 end = EndSearch.getText().toString();
 
+                /*
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
                 // set title
@@ -541,6 +595,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     alertDialog.show();
                 }
+                */
+
+                Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
