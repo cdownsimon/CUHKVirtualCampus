@@ -11,6 +11,7 @@ public class Location {
     private int region;
     private String photo;
     private ArrayList<Centre> centre = new ArrayList<Centre>();
+    private ArrayList<WaterCooler> waterCooler = new ArrayList<WaterCooler>();
 
     public Location(String index, String Eng, String Chi, String Short_Name, double coor_x, double coor_y, int region){
         this.index = index;
@@ -22,7 +23,7 @@ public class Location {
         this.region = region;
     }
 
-    public Location(String index, String Eng, String Chi, String Short_Name, double coor_x, double coor_y, int region, String photo, ArrayList<Centre> centre){
+    public Location(String index, String Eng, String Chi, String Short_Name, double coor_x, double coor_y, int region, String photo, ArrayList<Centre> centre, ArrayList<WaterCooler> waterCooler){
         this.index = index;
         this.Eng = Eng;
         this.Chi = Chi;
@@ -32,6 +33,7 @@ public class Location {
         this.region = region;
         this.photo = photo;
         this.centre = centre;
+        this.waterCooler = waterCooler;
     }
 
     public String getIndex(){
@@ -69,5 +71,9 @@ public class Location {
 
     public ArrayList<Centre> getCentre(){
         return this.centre;
+    }
+
+    public ArrayList<WaterCooler> getWaterCooler(){
+        return this.waterCooler;
     }
 }

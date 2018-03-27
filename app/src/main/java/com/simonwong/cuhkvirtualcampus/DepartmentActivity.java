@@ -6,6 +6,11 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -25,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +51,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DepartmentActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DepartmentActivity extends FragmentActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private GoogleMap mMap;
 
@@ -71,6 +77,11 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
     final ArrayList<String> PhotoIdForMarker = new ArrayList<>();
 
     boolean language = true;
+    boolean waterCooler = false;
+
+    private Spinner spinner;
+    private static final String[]paths = {"All Departments", "Toilets", "Water Coolers", "Canteen", "Sports Arena", "Super Market"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,6 +262,132 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                 finish();
             }
         });
+
+        spinner = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter<String>adapter = new ArrayAdapter<String>(DepartmentActivity.this,
+                android.R.layout.simple_spinner_item,paths);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+
+        switch (position) {
+            case 0:
+                //Mark the marker for all buildings
+                waterCooler = false;
+                mMap.clear();
+                for(Location tmp : location_list.getLocationlist()){
+                    Marker marker;
+                    //Mark the marker if size of center > 0
+                    if(tmp.getCentre().size()>0) {
+
+                        marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(tmp.getCoor_x(), tmp.getCoor_y())));
+
+                        Markers.add(marker);
+                        MarkLocation.put(marker, tmp);
+                        MarkersChi.put(marker, tmp.getChi());
+                        MarkersEng.put(marker, tmp.getEng());
+                        MarkersRe.put(marker, tmp.getRegion());
+                        MarkersPhoto.put(marker, tmp.getPhoto());
+                        MarkersPhotoLoaded.put(marker,false);
+                        PhotoIdForMarker.add(tmp.getPhoto());
+                    }
+                }
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+                waterCooler = true;
+                mMap.clear();
+                //Mark the marker for all Watercoolers
+                for(Location tmp : location_list.getLocationlist()){
+                    Marker marker;
+                    //Mark the marker if size of Watercoolers > 0
+                    if(tmp.getWaterCooler().size()>0) {
+                        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+                        Bitmap bmp = Bitmap.createBitmap(160, 160, conf);
+                        Canvas canvas1 = new Canvas(bmp);
+
+                        Paint color = new Paint();
+                        color.setColor(Color.BLACK);
+
+                        BitmapFactory.Options opt = new BitmapFactory.Options();
+                        opt.inMutable = true;
+
+                        Bitmap imageBitmap=BitmapFactory.decodeResource(getResources(),
+                                R.drawable.watercooler,opt);
+                        Bitmap resized = Bitmap.createScaledBitmap(imageBitmap, 160, 160, true);
+                        canvas1.drawBitmap(resized, 40, 40, color);
+
+                        marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(tmp.getCoor_x(), tmp.getCoor_y())).icon(BitmapDescriptorFactory.fromBitmap(bmp)));
+
+                        Markers.add(marker);
+                        MarkLocation.put(marker, tmp);
+                        MarkersChi.put(marker, tmp.getChi());
+                        MarkersEng.put(marker, tmp.getEng());
+                        MarkersRe.put(marker, tmp.getRegion());
+                        MarkersPhoto.put(marker, tmp.getPhoto());
+                        MarkersPhotoLoaded.put(marker,false);
+                        PhotoIdForMarker.add(tmp.getPhoto());
+                    }
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                waterCooler = false;
+                mMap.clear();
+                //Mark the marker for all Watercoolers
+                for(Location tmp : location_list.getLocationlist()){
+                    Marker marker;
+                    //Mark the marker for index number "46"
+                    if(tmp.getIndex() == "46") {
+                        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+                        Bitmap bmp = Bitmap.createBitmap(100, 100, conf);
+                        Canvas canvas1 = new Canvas(bmp);
+
+                        Paint color = new Paint();
+                        color.setColor(Color.BLACK);
+
+                        BitmapFactory.Options opt = new BitmapFactory.Options();
+                        opt.inMutable = true;
+
+                        Bitmap imageBitmap=BitmapFactory.decodeResource(getResources(),
+                                R.drawable.supermarket,opt);
+                        Bitmap resized = Bitmap.createScaledBitmap(imageBitmap, 100, 100, true);
+                        canvas1.drawBitmap(resized, 12, 10, color);
+
+                        marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(tmp.getCoor_x(), tmp.getCoor_y())).icon(BitmapDescriptorFactory.fromBitmap(bmp)));
+
+                        Markers.add(marker);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 17));
+                        MarkLocation.put(marker, tmp);
+                        MarkersChi.put(marker, tmp.getChi());
+                        MarkersEng.put(marker, tmp.getEng());
+                        MarkersRe.put(marker, tmp.getRegion());
+                        MarkersPhoto.put(marker, tmp.getPhoto());
+                        MarkersPhotoLoaded.put(marker,false);
+                        PhotoIdForMarker.add(tmp.getPhoto());
+                    }
+                }
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 
     /**
@@ -299,7 +436,14 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
 
                 final Location CurrentLocation = MarkLocation.get(marker);
 
-                ArrayAdapter<Centre> adapter = new MyListAdapter(CurrentLocation.getCentre());
+
+                ArrayAdapter adapter;
+
+                if(waterCooler == true){
+                    adapter = new WaterCoolerAdapter(CurrentLocation.getWaterCooler());
+                }else{
+                    adapter = new MyListAdapter(CurrentLocation.getCentre());
+                }
 
                 InfoMessage.setAdapter(adapter);
 
@@ -356,8 +500,9 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
         LatLng MiddlePoint = new LatLng(22.419491, 114.206975);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(MiddlePoint));
-
+        /*
         //Mark the marker for all buildings
+        mMap.clear();
         for(Location tmp : location_list.getLocationlist()){
             Marker marker;
             //Mark the marker if size of center > 0
@@ -376,6 +521,7 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                 PhotoIdForMarker.add(tmp.getPhoto());
             }
         }
+        */
 
     }
 
@@ -409,6 +555,44 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
             Phone.setText(super.getItem(position).getPhone());
 
             return itemView;
+        }
+
+    }
+
+    private class WaterCoolerAdapter extends ArrayAdapter<WaterCooler> {
+
+        //ArrayList<Centre> centres = new ArrayList<>();
+
+        public WaterCoolerAdapter(ArrayList<WaterCooler> centres) {
+            super(DepartmentActivity.this, R.layout.info_windows_watercooler_list_item, centres);
+            //this.centres = centres;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Make sure we have a view to work with
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.info_windows_watercooler_list_item, parent, false);
+
+            }
+
+            // Fill the view
+            TextView Chi = (TextView) itemView.findViewById(R.id.chi);
+            TextView Eng = (TextView) itemView.findViewById(R.id.eng);
+            TextView location = (TextView) itemView.findViewById(R.id.location);
+
+            Chi.setText(super.getItem(position).getChi());
+            if (Chi.getText().toString().matches("")){
+                Chi.setText("-");
+            }
+            Eng.setText(super.getItem(position).getEng());
+            location.setText(super.getItem(position).getLocation());
+            if (location.getText().toString().matches("")){
+                location.setText("-");
+            }
+
+                return itemView;
         }
 
     }
@@ -570,12 +754,8 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                         intent.putExtra("bus","false");
                         intent.putExtra("activity", "dept");
 
-                        /*Disabled, will enable later.*/
-                        Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
-                        toast.show();
-
-                        //startActivityForResult(intent, 0);
-                        //finish();
+                        startActivityForResult(intent, 0);
+                        finish();
                     }
                 });
 
