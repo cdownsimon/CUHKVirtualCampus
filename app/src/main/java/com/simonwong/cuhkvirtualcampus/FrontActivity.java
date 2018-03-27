@@ -32,6 +32,8 @@ public class FrontActivity extends AppCompatActivity {
                         .getDefaultSharedPreferences(getBaseContext());
 
                 //  Create a new boolean and preference and set it to true
+                // For Info day Only
+                //boolean isSeemInfoDayFirstStart = getPrefs.getBoolean("SeemInfoDayFirstStart", true);
                 boolean isFirstStart = getPrefs.getBoolean("FrontfirstStart", true);
 
                 //  If the activity has never started before...
@@ -39,13 +41,15 @@ public class FrontActivity extends AppCompatActivity {
 
                     //  Launch app intro
                     final Intent i = new Intent(FrontActivity.this, FrontIntroActivity.class);
+                    final Intent j = new Intent(FrontActivity.this, FrontIntroActivity.class);
 
-                    i.putExtra("LaunchFrom", "front");
+                    //i.putExtra("LaunchFrom", "front");
+                    j.putExtra("LaunchFrom", "SeemInfoDay");
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            startActivity(i);
+                            startActivity(j);
                         }
                     });
 

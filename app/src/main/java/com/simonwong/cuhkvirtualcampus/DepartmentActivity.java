@@ -570,8 +570,12 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                         intent.putExtra("bus","false");
                         intent.putExtra("activity", "dept");
 
-                        startActivityForResult(intent, 0);
-                        finish();
+                        /*Disabled, will enable later.*/
+                        Toast toast = Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        //startActivityForResult(intent, 0);
+                        //finish();
                     }
                 });
 

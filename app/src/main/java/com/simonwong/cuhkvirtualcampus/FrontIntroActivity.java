@@ -1,6 +1,7 @@
 package com.simonwong.cuhkvirtualcampus;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,12 +12,15 @@ import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
 public class FrontIntroActivity extends AppIntro2 {
+
+    String LaunchFrom;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle message = getIntent().getExtras();
-        String LaunchFrom = message.getString("LaunchFrom");
+        LaunchFrom = message.getString("LaunchFrom");
 
         if(LaunchFrom.equals("front")){
             addSlide(AppIntroFragment.newInstance("Welcome to CU Guides!", "接下來將為你介紹三項主要功能\nWe will introduce the three main features in the following.", getResources().getIdentifier("home_logo", "mipmap", getPackageName()), Color.parseColor("#12a8a8")));
@@ -60,12 +64,20 @@ public class FrontIntroActivity extends AppIntro2 {
             addSlide(AppIntroFragment.newInstance("返回請求列表\nBack to Request List", "您可以點擊這裡返回請求列表\nYou can click here to back to request list.", getResources().getIdentifier("call_help_re_list", "drawable", getPackageName()), Color.parseColor("#12a8a8")));
             addSlide(AppIntroFragment.newInstance("返回首頁\nBack to Home Page", "您可以點擊這裡返回首頁\nYou can click here to back to home page.", getResources().getIdentifier("call_help_home", "drawable", getPackageName()), Color.parseColor("#12a8a8")));
             addSlide(AppIntroFragment.newInstance("刪除請求\nDelete Request", "所有請求將會在十分鐘後自動刪除\nAll the request will be deleted after 10 minutes.", getResources().getIdentifier("call_help_del", "drawable", getPackageName()), Color.parseColor("#12a8a8")));
+        }else if(LaunchFrom.equals("SeemInfoDay")){
+            addSlide(AppIntroFragment.newInstance("本科入學資訊日\nOrientation Day", "CU Guides is developed by the CUHK Department of Systems Engineering and Engineering Management", getResources().getIdentifier("seem_logo", "drawable", getPackageName()), Color.parseColor("#0f228e")));
+            addSlide(AppIntroFragment.newInstance("Project Demonstrations", "我們將會示範不同的研究項目, 歡迎來到蒙民偉工程學大樓6樓612室查詢!\nWe will have several project demonstrations, please come to William M.W. Mong Engineering Building Room 612!", getResources().getIdentifier("erb_google_map", "drawable", getPackageName()), Color.parseColor("#0f228e")));
         }
 
 
         // OPTIONAL METHODS
         // Override bar/separator color.
-        setBarColor(Color.parseColor("#12a8a8"));
+        if(LaunchFrom.equals("SeemInfoDay")){
+            setBarColor(Color.parseColor("#0f228e"));
+        }else {
+            setBarColor(Color.parseColor("#12a8a8"));
+        }
+
         //setSeparatorColor(Color.parseColor("#2196F3"));
 
         // Hide Skip/Done button.
@@ -82,6 +94,14 @@ public class FrontIntroActivity extends AppIntro2 {
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
         // Do something when users tap on Skip button.
+
+        if(LaunchFrom.equals("SeemInfoDay")) {
+            Intent i = new Intent(FrontIntroActivity.this, FrontIntroActivity.class);
+
+            i.putExtra("LaunchFrom", "front");
+            startActivity(i);
+        }
+
         finish();
     }
 
@@ -89,6 +109,14 @@ public class FrontIntroActivity extends AppIntro2 {
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         // Do something when users tap on Done button.
+
+        if(LaunchFrom.equals("SeemInfoDay")) {
+            Intent i = new Intent(FrontIntroActivity.this, FrontIntroActivity.class);
+
+            i.putExtra("LaunchFrom", "front");
+            startActivity(i);
+        }
+
         finish();
     }
 

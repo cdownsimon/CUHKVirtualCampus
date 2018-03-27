@@ -118,7 +118,6 @@
                 android:layout_gravity="center_vertical" />
 
         </LinearLayout>
-
     </RelativeLayout>
 
     <LinearLayout
