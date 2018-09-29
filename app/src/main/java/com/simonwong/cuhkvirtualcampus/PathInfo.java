@@ -2,7 +2,11 @@ package com.simonwong.cuhkvirtualcampus;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,9 +30,9 @@ public class PathInfo {
 
         for(int i=0;i<this.NumOfPhoto;i++) {
             if(i<10){
-                PhotoId.add("p"+Start+"_"+End+"_0"+String.valueOf(i));
+                PhotoId.add("p"+Start+"_"+End+"_0"+String.valueOf(i)+".png");
             }else{
-                PhotoId.add("p"+Start+"_"+End+"_"+String.valueOf(i));
+                PhotoId.add("p"+Start+"_"+End+"_"+String.valueOf(i)+".png");
             }
         }
     }
@@ -94,5 +98,9 @@ public class PathInfo {
     public double[][] getCoorInfo(){return this.CoorInfo;}
 
     public int getNumOfCoor(){return this.NumOfCoor;}
+
+    public void setPhotoId(ArrayList<String> PhotoId){
+        this.PhotoId = PhotoId;
+    }
 
 }

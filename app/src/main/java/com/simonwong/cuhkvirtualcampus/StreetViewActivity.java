@@ -129,7 +129,8 @@ public class StreetViewActivity extends AppCompatActivity {
                 CurrentPhoto.setImageBitmap(BitmapFactory.decodeStream(inputStream, null, options));
                 */
 
-                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + PhotoList.get(progress) + ".png";
+                // String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + PhotoList.get(progress) + ".png";
+                String url = PhotoList.get(progress);
                 //CurrentPhoto.setImageResource(id);
 
                 Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(CurrentPhoto);
@@ -248,7 +249,8 @@ public class StreetViewActivity extends AppCompatActivity {
         Context ctx = StreetViewActivity.this;
         int InitialPhoto = ctx.getResources().getIdentifier(PhotoList.get(Progress), "drawable", ctx.getPackageName());
 
-        String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + PhotoList.get(Progress) + ".png";
+        // String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + PhotoList.get(Progress) + ".png";
+        String url = PhotoList.get(Progress);
 
         Picasso.with(getApplicationContext()).load(url).into(CurrentPhoto);
 
