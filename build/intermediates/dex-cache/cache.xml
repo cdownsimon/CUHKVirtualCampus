@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/deepansh/Documents/CUHKVirtualCampus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/simonwong/Documents/GitHub/CUHKVirtualCampus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/deepansh/Documents/CUHKVirtualCampus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9739d3fc3d069ff031286b805d0a87e9b22de8c4/classes.dex" />
+        <dex dex="/Users/simonwong/Documents/GitHub/CUHKVirtualCampus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_ffe160f05eb364cff3373326eca74b237e6cc914/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/deepansh/Documents/CUHKVirtualCampus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/simonwong/Documents/GitHub/CUHKVirtualCampus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="2ab09bc557b6d3dbe4118eff0b377c83d6d7f59f">
-        <dex dex="/Users/deepansh/Documents/CUHKVirtualCampus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_03b1608d74972b3ecb662b388eab324795c2842a/classes.dex" />
+        sha1="431405c5d6ea4c0568cc69e24dc88c90afaa039e">
+        <dex dex="/Users/simonwong/Documents/GitHub/CUHKVirtualCampus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_ff165f239adb7fe1a3b570f4625e2bdd5fa44db8/classes.dex" />
     </item>
 
 </items>

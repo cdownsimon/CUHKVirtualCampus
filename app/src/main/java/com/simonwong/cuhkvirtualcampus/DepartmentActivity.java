@@ -431,7 +431,9 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
                 //int id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
                 //InfoImage.setImageResource(id);
 
-                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+//                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+                String url = MarkersPhoto.get(marker);
+
                 Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(InfoImage);
 
                 final Location CurrentLocation = MarkLocation.get(marker);
@@ -651,7 +653,8 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
             try {
                 //id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
 
-                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+//                String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+                String url = MarkersPhoto.get(marker);
 
                 if(MarkersPhotoLoaded.get(marker)) {
                     Picasso.with(getApplicationContext()).load(url).into(markerImage);
@@ -709,7 +712,9 @@ public class DepartmentActivity extends FragmentActivity implements OnMapReadyCa
         //int id = DepartmentActivity.this.getResources().getIdentifier(MarkersPhoto.get(marker), "drawable", DepartmentActivity.this.getPackageName());
         //InfoImage.setImageResource(id);
 
-        String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+//        String url = "https://s3-ap-southeast-1.amazonaws.com/cuhk-images/" + MarkersPhoto.get(marker) + ".png";
+        String url = MarkersPhoto.get(marker);
+
         Picasso.with(getApplicationContext()).load(url).placeholder(R.layout.animation).into(InfoImage);
 
         final Location CurrentLocation = MarkLocation.get(marker);

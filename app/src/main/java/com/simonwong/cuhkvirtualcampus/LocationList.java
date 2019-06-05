@@ -206,6 +206,7 @@ public class LocationList {
     }
 
     public void addLocationPhoto(){
+        /*Photo URL modification is needed (current: use id as ref. todo: change to firebase URL)*/
         this.Locationlist.add(new Location("0", "Cheng Yu Tung Building", "鄭裕彤樓", "CYT", 22.412462, 114.210433, 1, "p0_1_00",
                 new ArrayList<Centre>(){{
                     add(new Centre("Room 408","工商管理學院","Business School Undergraduate Office","3943 7746"));
